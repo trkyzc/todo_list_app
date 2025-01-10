@@ -10,17 +10,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
-import lombok.Data;
+import jakarta.persistence.SequenceGenerator;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+
+@Getter
+@Setter
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", updatable = false, nullable = false)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "todo_seq")
+    @SequenceGenerator(name = "todo_seq", sequenceName = "todo_sequence", allocationSize = 1)
+    @Column(name = "id", updatable = false)
     private Long id;
 
     @Column(name = "created_date", updatable = false)

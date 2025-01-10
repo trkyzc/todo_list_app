@@ -8,17 +8,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "users")
 public class User extends BaseEntity {
 
-    @Column(name = "name", nullable = false)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "username", nullable = false, unique = true)
