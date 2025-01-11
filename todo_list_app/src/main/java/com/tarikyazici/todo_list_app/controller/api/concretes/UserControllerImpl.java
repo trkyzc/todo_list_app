@@ -17,6 +17,8 @@ import com.tarikyazici.todo_list_app.data.dto.CreateUserRequest;
 import com.tarikyazici.todo_list_app.data.dto.UpdateUserRequest;
 import com.tarikyazici.todo_list_app.data.dto.UserDto;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserControllerImpl implements UserController {
@@ -30,7 +32,7 @@ public class UserControllerImpl implements UserController {
 
     @PostMapping
     @Override
-    public ResponseEntity<UserDto> create(@RequestBody CreateUserRequest request) {
+    public ResponseEntity<UserDto> create(@Valid @RequestBody CreateUserRequest request) {
         return ResponseEntity.ok(userService.objectServiceCreate(request));
     }
 
@@ -48,7 +50,7 @@ public class UserControllerImpl implements UserController {
 
     @PutMapping("/{id}")
     @Override
-    public ResponseEntity<UserDto> update(@PathVariable Long id, @RequestBody UpdateUserRequest request) {
+    public ResponseEntity<UserDto> update(@PathVariable Long id, @Valid @RequestBody UpdateUserRequest request) {
         return ResponseEntity.ok(userService.objectServiceUpdate(id, request));
     }
 

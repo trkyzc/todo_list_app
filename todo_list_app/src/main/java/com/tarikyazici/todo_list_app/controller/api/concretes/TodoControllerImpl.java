@@ -18,6 +18,8 @@ import com.tarikyazici.todo_list_app.data.dto.CreateTodoRequest;
 import com.tarikyazici.todo_list_app.data.dto.TodoDto;
 import com.tarikyazici.todo_list_app.data.dto.UpdateTodoRequest;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/todos")
 public class TodoControllerImpl implements TodoController {
@@ -32,7 +34,7 @@ public class TodoControllerImpl implements TodoController {
 
     @PostMapping
     @Override
-    public ResponseEntity<TodoDto> create(@RequestBody CreateTodoRequest request) {
+    public ResponseEntity<TodoDto> create(@Valid @RequestBody CreateTodoRequest request) {
         return ResponseEntity.ok(todoService.objectServiceCreate(request));
     }
 
@@ -50,7 +52,7 @@ public class TodoControllerImpl implements TodoController {
 
     @PutMapping("/{id}")
     @Override
-    public ResponseEntity<TodoDto> update(@PathVariable Long id, @RequestBody UpdateTodoRequest request) {
+    public ResponseEntity<TodoDto> update(@PathVariable Long id, @Valid @RequestBody UpdateTodoRequest request) {
         return ResponseEntity.ok(todoService.objectServiceUpdate(id, request));
     }
 
