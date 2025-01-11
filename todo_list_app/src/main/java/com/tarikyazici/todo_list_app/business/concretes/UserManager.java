@@ -13,6 +13,8 @@ import com.tarikyazici.todo_list_app.data.entity.User;
 import com.tarikyazici.todo_list_app.data.mapper.UserMapper;
 import com.tarikyazici.todo_list_app.data.repository.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserManager implements UserService {
 	
@@ -42,7 +44,8 @@ public class UserManager implements UserService {
 	@Override
 	public UserDto objectServiceFindById(Long id) {
 		
-		User user = userRepository.findById(id).orElse(null);
+		 User user = userRepository.findById(id)
+		            .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
 		return UserMapper.toDto(user);
 
 	}
@@ -50,7 +53,8 @@ public class UserManager implements UserService {
 	@Override
 	public UserDto objectServiceUpdate(Long id, UpdateUserRequest updateRequest) {
 		
-		User user = userRepository.findById(id).orElse(null);
+		User user = userRepository.findById(id)
+	            .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
 		user.setName(updateRequest.getName());
 		user.setUsername(updateRequest.getUsername());
 		user.setEmail(updateRequest.getEmail());
@@ -62,7 +66,8 @@ public class UserManager implements UserService {
 	@Override
 	public UserDto objectServiceDelete(Long id) {
 		
-		User user = userRepository.findById(id).orElse(null);
+		User user = userRepository.findById(id)
+	            .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
 		userRepository.delete(user);
 		return UserMapper.toDto(user);
 	

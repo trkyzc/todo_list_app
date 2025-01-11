@@ -24,7 +24,7 @@ public class ApiResult {
     private String error;
     private String message;
     private String path;
-    private Map<String,String> validationErrors;
+    private Map<String,Object> errors;
     private LocalDate createdDate;
 
     // Constructor Parametresiz
@@ -46,12 +46,22 @@ public class ApiResult {
         this.status = status;
     }
     
-    public ApiResult(String message, LocalDate createdDate, Map<String, String> validationErrors) {
+    public ApiResult(String message, LocalDate createdDate, Map<String, Object> errors) {
 		this.message = message;
 		this.createdDate = createdDate;
-		this.validationErrors = validationErrors;
+		this.errors = errors;
     }
     
+    public ApiResult(String message, Map<String, Object> errors) {
+  		this.message = message;
+  		this.errors = errors;
+      }
+    
+    public ApiResult(int status,String message, Map<String, Object> errors) {
+    	this.status=status;
+  		this.message = message;
+  		this.errors = errors;
+      }
     
     
     

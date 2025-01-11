@@ -13,6 +13,8 @@ import com.tarikyazici.todo_list_app.data.mapper.TodoMapper;
 import com.tarikyazici.todo_list_app.data.repository.TodoRepository;
 import com.tarikyazici.todo_list_app.data.repository.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class TodoManager implements TodoService {
 	
@@ -29,7 +31,7 @@ public class TodoManager implements TodoService {
 	public TodoDto objectServiceCreate(CreateTodoRequest createRequest) {
 		
 		User user = userRepository.findById(createRequest.getUserId())
-	            .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + createRequest.getUserId()));
+	            .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + createRequest.getUserId()));
 		
 		Todo todo = TodoMapper.toEntity(createRequest);
 		todo.setUser(user);
@@ -48,7 +50,8 @@ public class TodoManager implements TodoService {
 	@Override
 	public TodoDto objectServiceFindById(Long id) {
 		
-		Todo todo = todoRepository.findById(id).orElse(null);
+		Todo todo = todoRepository.findById(id)
+		        .orElseThrow(() -> new EntityNotFoundException("Todo not found with id: " + id));
 		return TodoMapper.toDto(todo);
 
 	}
@@ -57,7 +60,7 @@ public class TodoManager implements TodoService {
 	public TodoDto objectServiceUpdate(Long id, UpdateTodoRequest updateRequest) {
 		
 		Todo todo = todoRepository.findById(id)
-		        .orElseThrow(() -> new IllegalArgumentException("Todo not found with id: " + id));
+		        .orElseThrow(() -> new EntityNotFoundException("Todo not found with id: " + id));
 		TodoMapper.updateEntity(updateRequest, todo);
 		todoRepository.save(todo);
 		return TodoMapper.toDto(todo);
@@ -66,7 +69,8 @@ public class TodoManager implements TodoService {
 	@Override
 	public TodoDto objectServiceDelete(Long id) {
 		
-		Todo todo = todoRepository.findById(id).orElse(null);
+		Todo todo = todoRepository.findById(id)
+		        .orElseThrow(() -> new EntityNotFoundException("Todo not found with id: " + id));
 		todoRepository.delete(todo);
 		return TodoMapper.toDto(todo);
 	
@@ -100,7 +104,7 @@ public class TodoManager implements TodoService {
 	public TodoDto updateTodoStatus(Long id, boolean status) {
 		
 		Todo todo = todoRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Todo not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Todo not found with id: " + id));
         todo.setCompleted(status);
         todoRepository.save(todo);
         return TodoMapper.toDto(todo);
